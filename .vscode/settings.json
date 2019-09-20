@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
+        "app",
         "atorov",
+        "bgnd",
         "camelcase",
         "chunkhash",
         "contenthash",
@@ -11,6 +13,8 @@
         "max",
         "plusplus",
         "size",
-        "stroustrup"
+        "stroustrup",
+        "unlisten",
+        "unmount"
     ]
 }
