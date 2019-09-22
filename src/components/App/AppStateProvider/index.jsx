@@ -1,14 +1,14 @@
-import React, { createContext, useReducer } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import initState from './init-state'
 import reducer from './reducer'
 
-export const AppDispatchContext = createContext(() => { })
-export const AppStateContext = createContext(initState)
+export const AppDispatchContext = React.createContext(() => { })
+export const AppStateContext = React.createContext(initState)
 
 function AppStateProvider({ children }) {
-    const [state, dispatch] = useReducer(reducer, initState)
+    const [state, dispatch] = React.useReducer(reducer, initState)
 
     return (
         <AppDispatchContext.Provider value={dispatch}>

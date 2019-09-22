@@ -13,6 +13,7 @@ import ErrorBoundary from '../../ErrorBoundary'
 import Fallback from './Fallback'
 
 const CHome = React.lazy(() => import('../../Home'))
+const CSettings = React.lazy(() => import('../../Settings'))
 
 function Routes(props) {
     // Use ref -----------------------------------------------------------------
@@ -32,6 +33,12 @@ function Routes(props) {
                         path="/"
                         exact
                         component={CHome}
+                    />
+
+                    <Route
+                        path="/settings"
+                        exact
+                        component={CSettings}
                     />
 
                     <Redirect to="/" />
