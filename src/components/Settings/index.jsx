@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
 import Slider from '@material-ui/core/Slider'
+import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
 import ISave from '@material-ui/icons/Save'
@@ -14,6 +15,8 @@ import ISettingsApplications from '@material-ui/icons/SettingsApplications'
 import IShuffle from '@material-ui/icons/Shuffle'
 
 import {
+    Bar,
+    BarChart,
     CartesianGrid,
     Line,
     LineChart,
@@ -102,16 +105,29 @@ function Settings(props) {
         r: element,
     })))
 
-    // DatasetBarChart[] -------------------------------------------------------
-    const datasetBarChart = Array(rRange + 1).fill(0)
+    // datasetBarChart[] -------------------------------------------------------
+    let datasetBarChart = Array(rRange + 1).fill(0)
     dataset.forEach((element) => {
         const index = Math.round(element - R_MIN)
         if (index >= 0 && index <= rRange) {
             datasetBarChart[index] = ++datasetBarChart[index]
         }
     })
+    datasetBarChart = datasetBarChart.map((value, index) => ({
+        x: Math.round(index + R_MIN),
+        y: value,
+    }))
 
-    console.log(datasetBarChart) // TODO:
+    // R statistics
+    const rMin = Math.min(...dataset)
+    const rMax = Math.max(...dataset)
+    const rSum = dataset.reduce((acc, curr) => acc + curr, 0)
+    const rMean = rSum / dataset.length
+
+    const sortedDataset = [...dataset].sort((a, b) => a - b)
+    const rMedian = (sortedDataset[(sortedDataset.length - 1) >> 1] + sortedDataset[sortedDataset.length >> 1]) / 2
+
+    console.log(dataset, rSum, rMin, rMax, rMean, rMedian) // TODO:
 
     // Render content ----------------------------------------------------------
     return (
@@ -225,7 +241,7 @@ function Settings(props) {
                 </div>
             </Paper>
 
-            {/* Dataset ---------------------------------------------------- */}
+            {/* New dataset ------------------------------------------------ */}
             <Paper
                 style={{
                     marginTop: 48,
@@ -259,7 +275,6 @@ function Settings(props) {
                         margin: `${props.theme.spacing(2)}px auto 0 auto`,
                     }}
                 >
-
                     <Typography variant="h6">
                         Trades count = &nbsp;
                         {rounds}
@@ -295,6 +310,45 @@ function Settings(props) {
                         stroke={props.theme.palette.secondary.main}
                     />
                 </LineChart>
+
+                <BarChart
+                    width={CHART_WIDTH}
+                    height={CHART_HEIGHT}
+                    data={datasetBarChart}
+                    style={{ margin: '0 auto' }}
+                >
+                    <XAxis dataKey="x" />
+                    <YAxis dataKey="y" />
+                    <CartesianGrid />
+                    <Bar
+                        dataKey="y"
+                        type="monotone"
+                        fill={props.theme.palette.primary.main}
+                    />
+                    <ReferenceLine
+                        x={0}
+                        stroke={props.theme.palette.secondary.main}
+                    />
+                </BarChart>
+
+                <div
+                    style={{
+                        width: CHART_WIDTH,
+                        margin: `${props.theme.spacing(2)}px auto 0 auto`,
+                    }}
+                >
+                    <TextField
+                        multiline
+                        rows="4"
+                        rowsMax="1"
+                        value={'[ ' + dataset.join(', ') + ' ]'}
+                        disabled
+                        style={{
+                            width: 'calc(100% - 48px)',
+                            marginLeft: 48,
+                        }}
+                    />
+                </div>
             </Paper>
 
             {/* Save dataset ----------------------------------------------- */}
