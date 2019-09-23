@@ -5,29 +5,15 @@ import withTheme from '@material-ui/core/styles/withTheme'
 
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
-import Paper from '@material-ui/core/Paper'
-import Slider from '@material-ui/core/Slider'
-import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
 import ISave from '@material-ui/icons/Save'
 import ISettingsApplications from '@material-ui/icons/SettingsApplications'
-import IShuffle from '@material-ui/icons/Shuffle'
-
-import {
-    Bar,
-    BarChart,
-    CartesianGrid,
-    Line,
-    LineChart,
-    Area,
-    AreaChart,
-    ReferenceLine,
-    XAxis,
-    YAxis,
-} from 'recharts'
 
 import { randomNormal } from 'd3-random'
+
+import Dataset from './Dataset'
+import PDF from './PDF'
 
 const R_MIN = -10
 const R_MAX = 10
@@ -127,8 +113,6 @@ function Settings(props) {
     const sortedDataset = [...dataset].sort((a, b) => a - b)
     const rMedian = (sortedDataset[(sortedDataset.length - 1) >> 1] + sortedDataset[sortedDataset.length >> 1]) / 2
 
-    console.log(dataset, rSum, rMin, rMax, rMean, rMedian) // TODO:
-
     // Render content ----------------------------------------------------------
     return (
         <div className="app-container">
@@ -146,210 +130,53 @@ function Settings(props) {
             </div>
 
             {/* PDF -------------------------------------------------------- */}
-            <Paper
-                style={{
-                    marginTop: 48,
-                    padding: props.theme.spacing(3, 2),
-                }}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Typography variant="h5">
-                        Probability Density Function of R
-                    </Typography>
-                </div>
-                <Divider />
+            <PDF
+                {...props}
+                chartHeight={CHART_HEIGHT}
+                chartWidth={CHART_WIDTH}
+                pdfData={pdfData}
+                mu={mu}
+                muMax={MU_MAX}
+                muMin={MU_MIN}
+                muStep={MU_STEP}
+                range={range}
+                rangeMax={RANGE_MAX}
+                rangeMin={RANGE_MIN}
+                rangeStep={RANGE_STEP}
+                sigma={sigma}
+                sigmaInitValue={SIGMA_INIT_VALUE}
+                sigmaMax={SIGMA_MAX}
+                sigmaMin={SIGMA_MIN}
+                sigmaStep={SIGMA_STEP}
 
-                <div
-                    style={{
-                        width: CHART_WIDTH,
-                        margin: `${props.theme.spacing(2)}px auto 0 auto`,
-                    }}
-                >
-                    <Typography variant="h6">
-                        σ = &nbsp;
-                        {sigma}
-                    </Typography>
-                    <Slider
-                        defaultValue={SIGMA_INIT_VALUE}
-                        valueLabelDisplay="auto"
-                        min={SIGMA_MIN}
-                        max={SIGMA_MAX}
-                        step={SIGMA_STEP}
-                        onChangeCommitted={(...[, value]) => setSigma(value)}
-                    />
-
-                    <Typography variant="h6">
-                        µ = &nbsp;
-                        {mu}
-                    </Typography>
-                    <Slider
-                        defaultValue={mu}
-                        valueLabelDisplay="auto"
-                        min={MU_MIN}
-                        max={MU_MAX}
-                        step={MU_STEP}
-                        onChangeCommitted={(...[, value]) => setMu(value)}
-                    />
-                </div>
-
-                <AreaChart
-                    width={CHART_WIDTH}
-                    height={CHART_HEIGHT}
-                    data={pdfData}
-                    style={{ margin: '0 auto' }}
-                >
-                    <XAxis dataKey="r" />
-                    <CartesianGrid />
-                    <Area
-                        dataKey="y"
-                        type="monotone"
-                        stroke={props.theme.palette.primary.main}
-                        strokeWidth={3}
-                        dot={false}
-                        isAnimationActive={false}
-                    />
-                    <ReferenceLine
-                        x={0}
-                        stroke={props.theme.palette.secondary.main}
-                    />
-                </AreaChart>
-
-                <div
-                    style={{
-                        width: CHART_WIDTH,
-                        margin: '0 auto',
-                    }}
-                >
-                    <Slider
-                        defaultValue={range}
-                        valueLabelDisplay="auto"
-                        min={RANGE_MIN}
-                        max={RANGE_MAX}
-                        step={RANGE_STEP}
-                        onChangeCommitted={(...[, value]) => setRange(value)}
-                    />
-                    <Typography variant="h6">
-                        {`range = [${range[0]} - ${range[1]}]`}
-                    </Typography>
-                </div>
-            </Paper>
+                onSetMu={(...[, value]) => setMu(value)}
+                onSetRange={(...[, value]) => setRange(value)}
+                onSetSigma={(...[, value]) => setSigma(value)}
+            />
 
             {/* New dataset ------------------------------------------------ */}
-            <Paper
-                style={{
-                    marginTop: 48,
-                    padding: props.theme.spacing(3, 2),
-                }}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Typography variant="h5">
-                        New Dataset
-                    </Typography>
-                    <Button
-                        color="secondary"
-                        onClick={() => forceUpdate(Date.now())}
-                    >
-                        <IShuffle />
-                        &nbsp;Shuffle
-                    </Button>
-                </div>
-                <Divider />
+            <Dataset
+                {...props}
+                isNewDataset
+                chartHeight={CHART_HEIGHT}
+                chartWidth={CHART_WIDTH}
+                dataset={dataset}
+                datasetBarChart={datasetBarChart}
+                datasetLineChart={datasetLineChart}
+                rMax={rMax}
+                rMean={rMean}
+                rMedian={rMedian}
+                rMin={rMin}
+                rSum={rSum}
 
-                <div
-                    style={{
-                        width: CHART_WIDTH / 2,
-                        margin: `${props.theme.spacing(2)}px auto 0 auto`,
-                    }}
-                >
-                    <Typography variant="h6">
-                        Trades count = &nbsp;
-                        {rounds}
-                    </Typography>
-                    <Slider
-                        defaultValue={ROUNDS_INIT_VALUE}
-                        valueLabelDisplay="auto"
-                        min={ROUNDS_MIN}
-                        max={ROUNDS_MAX}
-                        step={ROUNDS_STEP}
-                        // marks
-                        onChangeCommitted={(...[, value]) => setRounds(value)}
-                    />
-                </div>
-
-                <LineChart
-                    width={CHART_WIDTH}
-                    height={CHART_HEIGHT}
-                    data={datasetLineChart}
-                    style={{ margin: '0 auto' }}
-                >
-                    <XAxis dataKey="x" />
-                    <YAxis dataKey="r" />
-                    <CartesianGrid />
-                    <Line
-                        dataKey="r"
-                        type="monotone"
-                        stroke={props.theme.palette.primary.main}
-                        strokeWidth={3}
-                    />
-                    <ReferenceLine
-                        y={0}
-                        stroke={props.theme.palette.secondary.main}
-                    />
-                </LineChart>
-
-                <BarChart
-                    width={CHART_WIDTH}
-                    height={CHART_HEIGHT}
-                    data={datasetBarChart}
-                    style={{ margin: '0 auto' }}
-                >
-                    <XAxis dataKey="x" />
-                    <YAxis dataKey="y" />
-                    <CartesianGrid />
-                    <Bar
-                        dataKey="y"
-                        type="monotone"
-                        fill={props.theme.palette.primary.main}
-                    />
-                    <ReferenceLine
-                        x={0}
-                        stroke={props.theme.palette.secondary.main}
-                    />
-                </BarChart>
-
-                <div
-                    style={{
-                        width: CHART_WIDTH,
-                        margin: `${props.theme.spacing(2)}px auto 0 auto`,
-                    }}
-                >
-                    <TextField
-                        multiline
-                        rows="4"
-                        rowsMax="1"
-                        value={'[ ' + dataset.join(', ') + ' ]'}
-                        disabled
-                        style={{
-                            width: 'calc(100% - 48px)',
-                            marginLeft: 48,
-                        }}
-                    />
-                </div>
-            </Paper>
+                rounds={rounds}
+                roundsInitValue={ROUNDS_INIT_VALUE}
+                roundsMax={ROUNDS_MAX}
+                roundsMin={ROUNDS_MIN}
+                roundsStep={ROUNDS_STEP}
+                onSetRounds={(...[, value]) => setRounds(value)}
+                onShuffle={() => forceUpdate(Date.now())}
+            />
 
             {/* Save dataset ----------------------------------------------- */}
             <div
@@ -358,8 +185,6 @@ function Settings(props) {
                     textAlign: 'center',
                 }}
             >
-                <Divider />
-                <br />
                 <Button
                     variant="contained"
                     color="secondary"
@@ -369,6 +194,25 @@ function Settings(props) {
                     &nbsp;Save
                 </Button>
             </div>
+
+            <br />
+            <Divider />
+
+            {/* New dataset ------------------------------------------------ */}
+            <Dataset
+                {...props}
+                isNewDataset={false}
+                chartHeight={CHART_HEIGHT}
+                chartWidth={CHART_WIDTH}
+                dataset={dataset} // TODO:
+                datasetBarChart={datasetBarChart} // TODO:
+                datasetLineChart={datasetLineChart} // TODO:
+                rMax={rMax} // TODO:
+                rMean={rMean} // TODO:
+                rMedian={rMedian} // TODO:
+                rMin={rMin} // TODO:
+                rSum={rSum} // TODO:
+            />
         </div>
     )
 }
