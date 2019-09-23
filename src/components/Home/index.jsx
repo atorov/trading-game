@@ -32,7 +32,7 @@ function Apps(props) {
                         title="Settings"
                         component="img"
                         height={props.theme.spacing(20)}
-                        image="/trading-game/img/settings.jpg"
+                        image="/img/settings.jpg"
                     />
                     <CardContent>
                         <Typography variant="h5" component="h2">
@@ -54,7 +54,7 @@ function Apps(props) {
                         title="Trading Competition"
                         component="img"
                         height={props.theme.spacing(30)}
-                        image="/trading-game/img/trading-competition.jpg"
+                        image="/img/trading-competition.jpg"
                     />
                     <CardContent>
                         <Typography variant="h5" component="h2" gutterBottom>

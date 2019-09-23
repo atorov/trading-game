@@ -9,7 +9,7 @@ a {
 
 #app-root {
     min-height: 100%;
-    background-image: url('/trading-game/img/app-bgnd.png');
+    background-image: url('/img/app-bgnd.png');
     background-position: top;
     background-size: cover;
     font-family: Roboto, sans-serif;

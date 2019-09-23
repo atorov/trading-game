@@ -16,7 +16,8 @@ export default function App() {
         <>
             <CssBaseline />
             <AppStateProvider>
-                <BrowserRouter basename="/trading-game">
+                {/* <BrowserRouter basename="/trading-game"> */}
+                <BrowserRouter>
                     <TopBarL1 />
                     <Routes />
                 </BrowserRouter>

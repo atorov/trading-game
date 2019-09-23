@@ -17,7 +17,8 @@ const STORAGE = path.resolve(__dirname, '__storage__')
 const EXCLUDE_DEFAULT = [NODE_MODULES, EXTERNALS, STORAGE]
 
 const SRC = path.resolve(__dirname, 'src')
-const DIST = path.resolve(__dirname, 'build/www/trading-game')
+// const DIST = path.resolve(__dirname, 'build/www/trading-game')
+const DIST = path.resolve(__dirname, 'build/www')
 
 const NODE_ENV = process.env.NODE_ENV
 const MODE = NODE_ENV !== 'development' ? 'production' : 'development'
@@ -42,7 +43,8 @@ const config = {
 
     output: {
         path: DIST,
-        publicPath: '/trading-game/',
+        // publicPath: '/trading-game/',
+        publicPath: '/',
     },
 
     devtool: 'source-map',
@@ -152,9 +154,11 @@ if (MODE === 'development') {
     config.devServer = {
         host: HOST,
         port: PORT,
-        publicPath: '/trading-game/',
+        // publicPath: '/trading-game/',
+        publicPath: '/',
         historyApiFallback: {
-            index: '/trading-game/index.html',
+            // index: '/trading-game/index.html',
+            index: '/index.html',
         },
         disableHostCheck: true,
         stats: 'errors-only',

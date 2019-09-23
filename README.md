@@ -14,4 +14,4 @@ It is *NOT necessary* to run the build command `npm run build` when running the 
 ## Production
 
 1. Build the project projects - `npm run build`
-2. Serve the content of `build/www/trading-game` using any webserver.
+2. Serve the content of `build/www` using any webserver.
