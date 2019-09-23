@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography'
 
 // import { AppDispatchContext, AppStateContext } from '../App/AppStateProvider'
 
-function Apps(props) {
+function Home(props) {
     // Use context -------------------------------------------------------------
     // const appDispatch = React.useContext(AppDispatchContext)
     // const appState = React.useContext(AppStateContext)
@@ -75,9 +75,9 @@ function Apps(props) {
     )
 }
 
-Apps.propTypes = {
+Home.propTypes = {
     history: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 }
 
-export default withTheme(Apps)
+export default withTheme(Home)

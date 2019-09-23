@@ -74,7 +74,8 @@ function Settings(props) {
 
     // Use state ---------------------------------------------------------------
     const [, forceUpdate] = React.useState()
-    const [mu, setMu] = React.useState(MU_INIT_VALUE)
+    // const [mu, setMu] = React.useState(MU_INIT_VALUE)
+    const [mu, setMu] = React.useState(1)
     const [range, setRange] = React.useState([R_MIN, R_MAX])
     const [rounds, setRounds] = React.useState(ROUNDS_INIT_VALUE)
     const [sigma, setSigma] = React.useState(SIGMA_INIT_VALUE)
