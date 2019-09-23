@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
+import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 
 // import { AppDispatchContext, AppStateContext } from '../App/AppStateProvider'
@@ -42,7 +43,7 @@ function Apps(props) {
             </Card>
 
             {/* Trading competition ---------------------------------------- */}
-            <Card
+            {/* <Card
                 style={{
                     maxWidth: props.theme.spacing(60),
                     margin: '48px auto 0 auto',
@@ -59,10 +60,17 @@ function Apps(props) {
                         <Typography variant="h5" component="h2" gutterBottom>
                             Trading Competition
                         </Typography>
-                        {/* <Typography variant="body2" component="p" color="textSecondary" /> */}
+                        <Typography variant="body2" component="p" color="textSecondary" />
                     </CardContent>
                 </CardActionArea>
-            </Card>
+            </Card> */}
+
+            {/* Footer note ------------------------------------------------ */}
+            <Divider style={{ marginTop: 48 }} />
+            <Typography variant="caption" color="textSecondary">
+                version:&nbsp;
+                {APP_VERSION.replace(/"/g, '')}
+            </Typography>
         </div>
     )
 }
