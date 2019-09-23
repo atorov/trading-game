@@ -166,8 +166,8 @@ function Settings(props) {
                 muMin={MU_MIN}
                 muStep={MU_STEP}
                 range={range}
-                rangeMax={RANGE_MAX}
-                rangeMin={RANGE_MIN}
+                rangeAbsoluteMax={RANGE_MAX}
+                rangeAbsoluteMin={RANGE_MIN}
                 rangeStep={RANGE_STEP}
                 sigma={sigma}
                 sigmaInitValue={SIGMA_INIT_VALUE}

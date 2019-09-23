@@ -93,6 +93,18 @@ function PDF(props) {
                     stroke={props.theme.palette.secondary.main}
                     isFront
                 />
+                <ReferenceLine
+                    x={props.range[0]}
+                    stroke={props.theme.palette.primary.light}
+                    strokeWidth={8}
+                    isFront
+                />
+                <ReferenceLine
+                    x={props.range[1]}
+                    stroke={props.theme.palette.primary.light}
+                    strokeWidth={8}
+                    isFront
+                />
             </AreaChart>
 
             <div
@@ -104,8 +116,8 @@ function PDF(props) {
                 <Slider
                     defaultValue={props.range}
                     valueLabelDisplay="auto"
-                    min={props.rangeMin}
-                    max={props.rangeMax}
+                    min={props.rangeAbsoluteMin}
+                    max={props.rangeAbsoluteMax}
                     step={props.rangeStep}
                     onChangeCommitted={props.onSetRange}
                 />
@@ -126,8 +138,8 @@ PDF.propTypes = {
     muMin: PropTypes.number.isRequired,
     muStep: PropTypes.number.isRequired,
     range: PropTypes.array.isRequired,
-    rangeMax: PropTypes.number.isRequired,
-    rangeMin: PropTypes.number.isRequired,
+    rangeAbsoluteMax: PropTypes.number.isRequired,
+    rangeAbsoluteMin: PropTypes.number.isRequired,
     rangeStep: PropTypes.number.isRequired,
     sigma: PropTypes.number.isRequired,
     sigmaInitValue: PropTypes.number.isRequired,
