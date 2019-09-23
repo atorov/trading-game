@@ -7,11 +7,11 @@ export default function (state, action) {
         //     return { ...initState }
 
         // General
-        // case ':appsState/SET_DATA:':
-        //     return {
-        //         ...state,
-        //         data: action.payload,
-        //     }
+        case ':appsState/SET_DATASET:':
+            return {
+                ...state,
+                dataset: action.payload,
+            }
 
         // Do not match
         default:

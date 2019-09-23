@@ -12,6 +12,8 @@ import ISettingsApplications from '@material-ui/icons/SettingsApplications'
 
 import { randomNormal } from 'd3-random'
 
+import { AppDispatchContext, AppStateContext } from '../App/AppStateProvider'
+
 import Dataset from './Dataset'
 import PDF from './PDF'
 
@@ -43,7 +45,33 @@ const ROUNDS_MIN = 5
 const ROUNDS_MAX = 100
 const ROUNDS_STEP = 1
 
+function genBarChartData(dataset, range) {
+    const arr = Array(range + 1).fill(0)
+    dataset.forEach((element) => {
+        const index = Math.round(element - R_MIN)
+        if (index >= 0 && index <= range) {
+            arr[index] = ++arr[index]
+        }
+    })
+
+    return arr.map((value, index) => ({
+        x: Math.round(index + R_MIN),
+        y: value,
+    }))
+}
+
+function genLineChartData(dataset) {
+    return dataset.map((element, index) => ({
+        x: index,
+        r: element,
+    }))
+}
+
 function Settings(props) {
+    // Use context -------------------------------------------------------------
+    const appDispatch = React.useContext(AppDispatchContext)
+    const appState = React.useContext(AppStateContext)
+
     // Use state ---------------------------------------------------------------
     const [, forceUpdate] = React.useState()
     const [mu, setMu] = React.useState(MU_INIT_VALUE)
@@ -51,10 +79,11 @@ function Settings(props) {
     const [rounds, setRounds] = React.useState(ROUNDS_INIT_VALUE)
     const [sigma, setSigma] = React.useState(SIGMA_INIT_VALUE)
 
-    // rand() ------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // rand() ---
     const rand = randomNormal(mu, sigma)
 
-    // pdsData[] ---------------------------------------------------------------
+    // pdfData[] ---
     const pdfRs = Array(rRange + 1).fill(0)
     for (let i = 0; i < R_ESTIMATIONS; i++) {
         const r = Math.round(rand() + rRange + R_MIN)
@@ -71,7 +100,7 @@ function Settings(props) {
         y: element,
     }))
 
-    // dataset[] ---------------------------------------------------------------
+    // dataset[] ---
     let watchdog = 1000000
     const dataset = []
     while (dataset.length !== rounds && watchdog) {
@@ -85,26 +114,15 @@ function Settings(props) {
         }
     }
 
-    // datasetLineChart[] ------------------------------------------------------
-    const datasetLineChart = (dataset.map((element, index) => ({
-        x: index,
-        r: element,
-    })))
+    // Line chart datasets ---
+    const datasetLineChart = genLineChartData(dataset)
+    const datasetCurrentLineChart = genLineChartData(appState.dataset)
 
-    // datasetBarChart[] -------------------------------------------------------
-    let datasetBarChart = Array(rRange + 1).fill(0)
-    dataset.forEach((element) => {
-        const index = Math.round(element - R_MIN)
-        if (index >= 0 && index <= rRange) {
-            datasetBarChart[index] = ++datasetBarChart[index]
-        }
-    })
-    datasetBarChart = datasetBarChart.map((value, index) => ({
-        x: Math.round(index + R_MIN),
-        y: value,
-    }))
+    // Bar chart datasets ---
+    const datasetBarChart = genBarChartData(dataset, rRange)
+    const datasetCurrentBarChart = genBarChartData(appState.dataset, rRange)
 
-    // R statistics
+    // R statistics ---
     const rMin = Math.min(...dataset)
     const rMax = Math.max(...dataset)
     const rSum = dataset.reduce((acc, curr) => acc + curr, 0)
@@ -112,6 +130,14 @@ function Settings(props) {
 
     const sortedDataset = [...dataset].sort((a, b) => a - b)
     const rMedian = (sortedDataset[(sortedDataset.length - 1) >> 1] + sortedDataset[sortedDataset.length >> 1]) / 2
+
+    const rCurrentMin = Math.min(...appState.dataset)
+    const rCurrentMax = Math.max(...appState.dataset)
+    const rCurrentSum = appState.dataset.reduce((acc, curr) => acc + curr, 0)
+    const rCurrentMean = rCurrentSum / appState.dataset.length
+
+    const sortedCurrentDataset = [...appState.dataset].sort((a, b) => a - b)
+    const rCurrentMedian = (sortedCurrentDataset[(sortedCurrentDataset.length - 1) >> 1] + sortedCurrentDataset[sortedCurrentDataset.length >> 1]) / 2
 
     // Render content ----------------------------------------------------------
     return (
@@ -188,7 +214,10 @@ function Settings(props) {
                 <Button
                     variant="contained"
                     color="secondary"
-                    // onClick={() => ...} // TODO:
+                    onClick={() => appDispatch({
+                        type: ':appsState/SET_DATASET:',
+                        payload: dataset,
+                    })}
                 >
                     <ISave />
                     &nbsp;Save
@@ -204,14 +233,14 @@ function Settings(props) {
                 isNewDataset={false}
                 chartHeight={CHART_HEIGHT}
                 chartWidth={CHART_WIDTH}
-                dataset={dataset} // TODO:
-                datasetBarChart={datasetBarChart} // TODO:
-                datasetLineChart={datasetLineChart} // TODO:
-                rMax={rMax} // TODO:
-                rMean={rMean} // TODO:
-                rMedian={rMedian} // TODO:
-                rMin={rMin} // TODO:
-                rSum={rSum} // TODO:
+                dataset={appState.dataset}
+                datasetBarChart={datasetCurrentBarChart}
+                datasetLineChart={datasetCurrentLineChart}
+                rMax={rCurrentMax}
+                rMean={rCurrentMean}
+                rMedian={rCurrentMedian}
+                rMin={rCurrentMin}
+                rSum={rCurrentSum}
             />
         </div>
     )

@@ -7,6 +7,11 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
 import Slider from '@material-ui/core/Slider'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
@@ -30,6 +35,7 @@ function Dataset(props) {
             style={{
                 marginTop: 48,
                 padding: props.theme.spacing(3, 2),
+                background: props.isNewDataset ? props.theme.palette.background.paper : 'lightgray',
             }}
         >
             <div
@@ -138,42 +144,38 @@ function Dataset(props) {
                     margin: `${props.theme.spacing(2)}px auto 0 auto`,
                 }}
             >
-                <TextField
-                    multiline
-                    rows="4"
-                    rowsMax="1"
-                    value={'[ ' + props.dataset.join(', ') + ' ]'}
-                    disabled
-                    style={{
-                        width: 'calc(100% - 48px)',
-                        marginLeft: 48,
-                    }}
-                />
-
-                {/* <Table className={classes.table} size="small">
+                <Table size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Dessert (100g serving)</TableCell>
-                            <TableCell align="right">Calories</TableCell>
-                            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                            <TableCell align="center">Sum</TableCell>
+                            <TableCell align="center">Min</TableCell>
+                            <TableCell align="center">Max</TableCell>
+                            <TableCell align="center">Mean</TableCell>
+                            <TableCell align="center">Median</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map(row => (
-                            <TableRow key={row.name}>
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                            </TableRow>
-                        ))}
+                        <TableRow>
+                            <TableCell align="center">{props.rSum.toFixed(1)}</TableCell>
+                            <TableCell align="center">{props.rMin.toFixed(1)}</TableCell>
+                            <TableCell align="center">{props.rMax.toFixed(1)}</TableCell>
+                            <TableCell align="center">{props.rMean.toFixed(1)}</TableCell>
+                            <TableCell align="center">{props.rMedian.toFixed(1)}</TableCell>
+                        </TableRow>
                     </TableBody>
-                </Table> */}
+                </Table>
+
+                <TextField
+                    multiline
+                    rows="4"
+                    rowsMax="4"
+                    value={'[ ' + props.dataset.join(', ') + ' ]'}
+                    disabled
+                    style={{
+                        width: '100%',
+                        marginTop: props.theme.spacing(2),
+                    }}
+                />
             </div>
         </Paper>
     )

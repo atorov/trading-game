@@ -9,7 +9,13 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 
+// import { AppDispatchContext, AppStateContext } from '../App/AppStateProvider'
+
 function Apps(props) {
+    // Use context -------------------------------------------------------------
+    // const appDispatch = React.useContext(AppDispatchContext)
+    // const appState = React.useContext(AppStateContext)
+
     // Render content ----------------------------------------------------------
     return (
         <div className="app-container">
