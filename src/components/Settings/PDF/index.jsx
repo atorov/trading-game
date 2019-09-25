@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import withTheme from '@material-ui/core/styles/withTheme'
+import useTheme from '@material-ui/core/styles/useTheme'
 
 import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
@@ -17,12 +17,15 @@ import {
 } from 'recharts'
 
 function PDF(props) {
+    // Use hooks ---------------------------------------------------------------
+    const theme = useTheme()
+
     // Render content ----------------------------------------------------------
     return (
         <Paper
             style={{
                 marginTop: 48,
-                padding: props.theme.spacing(3, 2),
+                padding: theme.spacing(3, 2),
             }}
         >
             <div
@@ -42,7 +45,7 @@ function PDF(props) {
             <div
                 style={{
                     width: props.chartWidth,
-                    margin: `${props.theme.spacing(2)}px auto 0 auto`,
+                    margin: `${theme.spacing(2)}px auto 0 auto`,
                 }}
             >
                 <Typography variant="h6">
@@ -83,25 +86,25 @@ function PDF(props) {
                 <Area
                     dataKey="y"
                     type="monotone"
-                    stroke={props.theme.palette.primary.main}
+                    stroke={theme.palette.primary.main}
                     strokeWidth={3}
                     dot={false}
                     isAnimationActive={false}
                 />
                 <ReferenceLine
                     x={0}
-                    stroke={props.theme.palette.secondary.main}
+                    stroke={theme.palette.secondary.main}
                     isFront
                 />
                 <ReferenceLine
                     x={props.range[0]}
-                    stroke={props.theme.palette.primary.light}
+                    stroke={theme.palette.primary.light}
                     strokeWidth={8}
                     isFront
                 />
                 <ReferenceLine
                     x={props.range[1]}
-                    stroke={props.theme.palette.primary.light}
+                    stroke={theme.palette.primary.light}
                     strokeWidth={8}
                     isFront
                 />
@@ -146,11 +149,10 @@ PDF.propTypes = {
     sigmaMax: PropTypes.number.isRequired,
     sigmaMin: PropTypes.number.isRequired,
     sigmaStep: PropTypes.number.isRequired,
-    theme: PropTypes.object.isRequired,
 
     onSetMu: PropTypes.func.isRequired,
     onSetRange: PropTypes.func.isRequired,
     onSetSigma: PropTypes.func.isRequired,
 }
 
-export default withTheme(PDF)
+export default PDF

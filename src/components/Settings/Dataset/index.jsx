@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import withTheme from '@material-ui/core/styles/withTheme'
+import useTheme from '@material-ui/styles/useTheme'
 
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
@@ -29,13 +29,16 @@ import {
 } from 'recharts'
 
 function Dataset(props) {
+    // Use hooks ---------------------------------------------------------------
+    const theme = useTheme()
+
     // Render content ----------------------------------------------------------
     return (
         <Paper
             style={{
                 marginTop: 48,
-                padding: props.theme.spacing(3, 2),
-                background: props.isNewDataset ? props.theme.palette.background.paper : 'lightgray',
+                padding: theme.spacing(3, 2),
+                background: props.isNewDataset ? theme.palette.background.paper : 'lightgray',
             }}
         >
             <div
@@ -65,7 +68,7 @@ function Dataset(props) {
                 <div
                     style={{
                         width: props.chartWidth / 2,
-                        margin: `${props.theme.spacing(2)}px auto 0 auto`,
+                        margin: `${theme.spacing(2)}px auto 0 auto`,
                     }}
                 >
                     <Typography variant="h6">
@@ -95,25 +98,25 @@ function Dataset(props) {
                 <Line
                     dataKey="r"
                     type="monotone"
-                    stroke={props.theme.palette.primary.main}
+                    stroke={theme.palette.primary.main}
                     strokeWidth={3}
                 />
                 <ReferenceLine
                     y={0}
                     isFront
-                    stroke={props.theme.palette.secondary.main}
+                    stroke={theme.palette.secondary.main}
                 />
                 <ReferenceLine
                     y={props.rMean}
                     isFront
-                    stroke={props.theme.palette.primary.light}
-                    strokeDasharray={`${props.theme.spacing()} ${props.theme.spacing()}`}
+                    stroke={theme.palette.primary.light}
+                    strokeDasharray={`${theme.spacing()} ${theme.spacing()}`}
                 />
                 <ReferenceLine
                     y={props.rMedian}
                     isFront
-                    stroke={props.theme.palette.primary.light}
-                    strokeDasharray={`${props.theme.spacing(0.25)} ${props.theme.spacing(0.5)}`}
+                    stroke={theme.palette.primary.light}
+                    strokeDasharray={`${theme.spacing(0.25)} ${theme.spacing(0.5)}`}
                 />
             </LineChart>
 
@@ -129,19 +132,19 @@ function Dataset(props) {
                 <Bar
                     dataKey="y"
                     type="monotone"
-                    fill={props.theme.palette.primary.main}
+                    fill={theme.palette.primary.main}
                 />
                 <ReferenceLine
                     x={0}
                     isFront
-                    stroke={props.theme.palette.secondary.main}
+                    stroke={theme.palette.secondary.main}
                 />
             </BarChart>
 
             <div
                 style={{
                     width: props.chartWidth,
-                    margin: `${props.theme.spacing(2)}px auto 0 auto`,
+                    margin: `${theme.spacing(2)}px auto 0 auto`,
                 }}
             >
                 <Table size="small">
@@ -173,7 +176,7 @@ function Dataset(props) {
                     disabled
                     style={{
                         width: '100%',
-                        marginTop: props.theme.spacing(2),
+                        marginTop: theme.spacing(2),
                     }}
                 />
             </div>
@@ -193,7 +196,6 @@ Dataset.propTypes = {
     rMedian: PropTypes.number.isRequired,
     rMin: PropTypes.number.isRequired,
     rSum: PropTypes.number.isRequired,
-    theme: PropTypes.object.isRequired,
 
     rounds: PropTypes.number,
     roundsInitValue: PropTypes.number,
@@ -216,4 +218,4 @@ Dataset.defaultProps = {
     onShuffle: () => {},
 }
 
-export default withTheme(Dataset)
+export default Dataset

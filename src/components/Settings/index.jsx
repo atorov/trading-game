@@ -1,7 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
-import withTheme from '@material-ui/core/styles/withTheme'
 
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
@@ -67,7 +64,7 @@ function genLineChartData(dataset) {
     }))
 }
 
-function Settings(props) {
+export default function Settings(props) {
     // Use context -------------------------------------------------------------
     const appDispatch = React.useContext(AppDispatchContext)
     const appState = React.useContext(AppStateContext)
@@ -245,9 +242,3 @@ function Settings(props) {
         </div>
     )
 }
-
-Settings.propTypes = {
-    theme: PropTypes.object.isRequired,
-}
-
-export default withTheme(Settings)

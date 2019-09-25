@@ -1,7 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import withTheme from '@material-ui/core/styles/withTheme'
+import useTheme from '@material-ui/styles/useTheme'
 
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -10,12 +9,18 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 
+import { useHistory } from 'react-router-dom'
+
 // import { AppDispatchContext, AppStateContext } from '../App/AppStateProvider'
 
-function Home(props) {
+export default function Home() {
     // Use context -------------------------------------------------------------
     // const appDispatch = React.useContext(AppDispatchContext)
     // const appState = React.useContext(AppStateContext)
+
+    // Use hooks ---------------------------------------------------------------
+    const history = useHistory()
+    const theme = useTheme()
 
     // Render content ----------------------------------------------------------
     return (
@@ -23,15 +28,15 @@ function Home(props) {
             {/* Settings --------------------------------------------------- */}
             <Card
                 style={{
-                    maxWidth: props.theme.spacing(60),
+                    maxWidth: theme.spacing(60),
                     margin: '0 auto',
                 }}
             >
-                <CardActionArea onClick={() => props.history.push('/settings')}>
+                <CardActionArea onClick={() => history.push('/settings')}>
                     <CardMedia
                         title="Settings"
                         component="img"
-                        height={props.theme.spacing(20)}
+                        height={theme.spacing(20)}
                         image="/img/settings.jpg"
                     />
                     <CardContent>
@@ -45,15 +50,15 @@ function Home(props) {
             {/* Trading competition ---------------------------------------- */}
             {/* <Card
                 style={{
-                    maxWidth: props.theme.spacing(60),
+                    maxWidth: theme.spacing(60),
                     margin: '48px auto 0 auto',
                 }}
             >
-                <CardActionArea onClick={() => props.history.push('/competition')}>
+                <CardActionArea onClick={() => history.push('/competition')}>
                     <CardMedia
                         title="Trading Competition"
                         component="img"
-                        height={props.theme.spacing(30)}
+                        height={theme.spacing(30)}
                         image="/img/trading-competition.jpg"
                     />
                     <CardContent>
@@ -74,10 +79,3 @@ function Home(props) {
         </div>
     )
 }
-
-Home.propTypes = {
-    history: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
-}
-
-export default withTheme(Home)

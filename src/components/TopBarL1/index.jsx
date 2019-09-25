@@ -1,9 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import { Link, withRouter } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-import withTheme from '@material-ui/core/styles/withTheme'
+import useTheme from '@material-ui/core/styles/useTheme'
 
 import AppBar from '@material-ui/core/AppBar'
 import Divider from '@material-ui/core/Divider'
@@ -16,7 +15,11 @@ import Typography from '@material-ui/core/Typography'
 import IHome from '@material-ui/icons/Home'
 import IHomeVert from '@material-ui/icons/MoreVert'
 
-function TopBarL1(props) {
+export default function TopBarL1() {
+    // Use hooks ---------------------------------------------------------------
+    const history = useHistory()
+    const theme = useTheme()
+
     // Use state ---------------------------------------------------------------
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = !!anchorEl
@@ -29,7 +32,7 @@ function TopBarL1(props) {
                     <IconButton
                         edge="start"
                         color="inherit"
-                        style={{ marginRight: props.theme.spacing(2) }}
+                        style={{ marginRight: theme.spacing(2) }}
                     >
                         <IHome />
                     </IconButton>
@@ -60,7 +63,7 @@ function TopBarL1(props) {
                         <MenuItem
                             onClick={() => {
                                 setAnchorEl(null)
-                                props.history.push('/')
+                                history.push('/')
                             }}
                         >
                             Home
@@ -69,7 +72,7 @@ function TopBarL1(props) {
                         <MenuItem
                             onClick={() => {
                                 setAnchorEl(null)
-                                props.history.push('/settings')
+                                history.push('/settings')
                             }}
                         >
                             Settings
@@ -77,7 +80,7 @@ function TopBarL1(props) {
                         <MenuItem
                             onClick={() => {
                                 setAnchorEl(null)
-                                props.history.push('/competition')
+                                history.push('/competition')
                             }}
                         >
                             Trading Competition
@@ -88,10 +91,3 @@ function TopBarL1(props) {
         </AppBar>
     )
 }
-
-TopBarL1.propTypes = {
-    history: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
-}
-
-export default withRouter(withTheme(TopBarL1))
